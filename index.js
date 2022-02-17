@@ -1,78 +1,156 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 
+
+const Badges = {
+    None: "None",
+    "Apache License 2.0": `[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)`,
+    "MIT": `[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)`,
+};
+   
+
 inquirer
     .prompt([
         {
             type: 'input',
-            message: 'whats your name?',
-            name: 'name',
+            message: 'whats your project title?',
+            name: 'title',
         },
         {
             type: 'input',
-            message: 'where are you from?',
-            name: 'location',
+            message: 'please provide a short description of your project:',
+            name: 'description',
         },
         {
             type: 'input',
-            message: 'tell us about yourself!',
-            name: 'bio',
+            message: 'What are the steps required to install your project?',
+            name: 'install',
         },
         {
             type: 'input',
-            message: 'whats your LinkedIn URL?',
-            name: 'LinkedIn',
+            message: 'Provide instructions and examples for use',
+            name: 'usage',
         },
         {
             type: 'input',
-            message: 'whats your GitHub URL?',
-            name: 'GitHub',
+            message: 'provide contribution guidelines',
+            name: 'contribute',
+        },
+        {
+            name: 'license',
+            type: 'list',
+            message: 'Please select a license:',
+            choices: [
+                "None",
+                "Academic Free License v3.0",
+                "Apache license 2.0",
+                "Artistic license 2.0",
+                "Boost Software License 1.0",
+                "BSD 2-clause 'Simplified' License",
+                "BSD 3-clause 'New' or 'Revised' license",
+                "BSD 3-clause Clear license",
+                "Creative Commons license family",
+                "Creative Commons Zero v1.0 Universal",
+                "Creative Commons Attribution 4.0",
+                "Creative Commons Attribution Share Alike 4.0",
+                "Do What The F*ck You Want To Public License (yes this is real)",
+                "Educational Community License v2.0",
+                "Eclipse Public License 1.0",
+                "Eclipse Public License 2.0",
+                "European Union Public License 1.1",
+                "GNU Affero General Public License v3.0",
+                "GNU General Public License family",
+                "GNU General Public License v2.0",
+                "GNU General Public License v3.0",
+                "GNU Lesser General Public License v2.1",
+                "GNU Lesser General Public License v3.0",
+                "ISC",
+                "LaTeX Project Public License v1.3c",
+                "Microsoft Public License",
+                "MIT",
+                "Mozilla Public License 2.0",
+                "Open Software License 3.0",
+                "PostgreSQL License",
+                "SIL Open Font License 1.1",
+                "University of Illinois/NCSA Open Source License",
+                "The Unlicense",
+                "zLib License",
+            ],
         },
         {
             type: 'input',
-            message: 'insert an image address here!',
-            name: 'image',
+            message: 'Status of testing?',
+            name: 'test',
         },
         {
             type: 'input',
-            message: 'favorite band?',
-            name: 'band',
+            message: 'Enter GitHub username:',
+            name: 'github',
+        },
+        {
+            type: 'input',
+            message: 'Provide a contact email:',
+            name: 'email',
         },
     ])
 
-    .then(({ name, location, bio, band, LinkedIn, GitHub, image }) => {
-        fs.writeFile('index.html',
+    .then(({ title, description, install, usage, contribute, license, test, github, email }) => {
+        fs.writeFile('README.md',
+
             //drop in ReadMe styling here!
-            `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+`# ${title}
 
-    <title>Portfolio Page!</title>
-</head>
-<body>
-    <main>
-        <div class="card" style="width: 18rem;">
-            <img src="${image}" class="card-img-top" alt="user image">
-            <div class="card-body">
-                <h5 class="card-title">${name}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">${location}</h6>
-                <p class="card-text">About Me: ${bio}</p>
-                <p class="card-text">My favorite band: ${band}</p>
-                <a href="${LinkedIn}" class="card-link">Linkedin</a>
-                <a href="${GitHub}" class="card-link">Github</a>
-            </div>
-        </div>
-    </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"></script>
-</body>
-</html>`,
+## Description
 
-            (err) => err ? console.error(err) : console.log('ReadMe.md successfully created'))
+${description}
+
+----------------------------------------
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contribute](#contribute)
+- [Questions](#questions)
+- [Testing](#testing)
+- [License](#license)
+
+----------------------------------------
+
+## Installation
+
+${install}
+
+## Usage
+
+${usage}
+
+## How to Contribute
+
+${contribute}
+
+## Questions
+
+Github: https://github.com/${github}
+
+Email: ${email}
+
+## Testing
+
+${test}
+
+## License
+
+${license}
+
+${Badges[license]}
+
+--------
+
+[![License](https://img.shields.io/badge/License-${license}-yellowgreen.svg)]`,
+
+//End README.md styling
+
+            (err) => err ? console.error(err) : console.log('README.md successfully created'))
     });
+
