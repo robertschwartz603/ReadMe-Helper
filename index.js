@@ -8,6 +8,7 @@ const Badges = {
     "MIT": `[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)`,
 };
    
+//terminal user prompt
 
 inquirer
     .prompt([
@@ -39,7 +40,7 @@ inquirer
         {
             name: 'license',
             type: 'list',
-            message: 'Please select a license:',
+            message: 'Please select the license of your repo:',
             choices: [
                 "None",
                 "Academic Free License v3.0",
@@ -89,16 +90,23 @@ inquirer
         },
         {
             type: 'input',
+            message: 'name of project repo (must be exact):',
+            name: 'repo',
+        },
+        {
+            type: 'input',
             message: 'Provide a contact email:',
             name: 'email',
         },
     ])
 
-    .then(({ title, description, install, usage, contribute, license, test, github, email }) => {
+    .then(({ title, description, install, usage, contribute, license, test, github, repo, email }) => {
         fs.writeFile('README.md',
 
-            //drop in ReadMe styling here!
+            //below is a template literal for a README file.
 `# ${title}
+
+![GitHub](https://img.shields.io/github/license/${github}/${repo})
 
 ## Description
 
@@ -110,7 +118,7 @@ ${description}
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Contribute](#contribute)
+- [Contribute](#how-to-contribute)
 - [Questions](#questions)
 - [Testing](#testing)
 - [License](#license)
@@ -141,9 +149,7 @@ ${test}
 
 ## License
 
-${license}
-
-${Badges[license]}
+This project and it's contents are licensed under: ${license}
 
 --------
 
@@ -151,6 +157,10 @@ ${Badges[license]}
 
 //End README.md styling
 
+//error and/or status logger at completion of writeFile
+
             (err) => err ? console.error(err) : console.log('README.md successfully created'))
     });
+
+
 
