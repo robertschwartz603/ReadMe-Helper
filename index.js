@@ -1,13 +1,6 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-
-const Badges = {
-    None: "None",
-    "Apache License 2.0": `[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)`,
-    "MIT": `[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)`,
-};
-   
 //terminal user prompt
 
 inquirer
@@ -99,6 +92,8 @@ inquirer
             name: 'email',
         },
     ])
+
+    //initiates writen file and destructures the inquirer object into usable variables for template literal
 
     .then(({ title, description, install, usage, contribute, license, test, github, repo, email }) => {
         fs.writeFile('README.md',
